@@ -166,6 +166,15 @@ pub contract REVVVaultAccess {
     return vaultRef.max
   }
 
+  // returns total withdrawn amount for an account address
+  //
+  pub fun getTotalAmountForAccount(vaultProxyAddress: Address): UFix64 {
+    let paths = self.proxyToGuardMap[vaultProxyAddress]!
+    let capability = self.account.getCapability<&REVVVaultAccess.VaultGuard>(paths.privatePath)
+    let vaultRef = capability.borrow()!
+    return vaultRef.total
+  }
+
   // revokes withdrawal capability for an account
   //
   pub fun revokeVaultGuard(adminRef: &Admin, vaultProxyAddress: Address){
