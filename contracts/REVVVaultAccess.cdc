@@ -40,12 +40,12 @@ pub contract REVVVaultAccess {
   // Dictionary to store a (VaultProxy address) -> (VaultGuard paths) map
   // The registry helps answer which guards match which proxy.
   //
-  pub let proxyToGuardMap: { Address : VaultGuardPaths }
+  access(contract) let proxyToGuardMap: { Address : VaultGuardPaths }
 
   // Dictionary to store a (VaultGuard paths) -> (VaultProxy Address) map
   // The registry helps answer which proxy owners match which guard
   //
-  pub let guardToProxyMap: { StoragePath : Address }
+  access(contract) let guardToProxyMap: { StoragePath : Address }
 
   // Struct used to store paths for a Vault
   // Should be saved in a dictionary with VaultProxy as key
@@ -84,6 +84,7 @@ pub contract REVVVaultAccess {
         pre {
           (amount + self.total) <= self.max : "total of amount + previously withdrawn exceeds max withdrawal."
         }
+        self.total = self.total + amount
         return <- self.vaultCapability.borrow()!.withdraw(amount: amount)
     }
 
