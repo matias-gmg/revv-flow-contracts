@@ -7,7 +7,6 @@ jest.setTimeout(10000000);
 
 describe("REVV contract tests.\n\tAccounts:\n\t [+] Service: \towns REVV & REVVVaultAccess contracts.\n\t [+] Alice: \towns a REVV vault (only) but no VaultProxy. \n\t [+] Bob: \towns a ProxyVault.\n\n\tRunning tests:...", () => {
 
-    const SV = "~~~ Security Vulnerability! ~~~";
     const serviceAddress = "0xf8d6e0586b0a20c7";
     const addressMap = {};
     addressMap["REVV"] = serviceAddress;
@@ -112,7 +111,7 @@ describe("REVV contract tests.\n\tAccounts:\n\t [+] Service: \towns REVV & REVVV
             const signers = [Alice];
             await sendTransaction("access-escrow-fail",signers,[amount]);
             // If we get here, the tx succeeded - bad news.
-            throw `Escrow Vault could be accessed! ${SV}`;
+            throw `Escrow Vault could be accessed!`;
         } catch (e) {
             // Expected path - tx should throw.
             expect(e).toContain("[Error Code: 1101] cadence runtime error Execution failed");
@@ -183,7 +182,7 @@ describe("REVV contract tests.\n\tAccounts:\n\t [+] Service: \towns REVV & REVVV
         const tooHighAmount = '3000000001.0';
         try {
             await sendTransaction("create-vault-guard",[serviceAddress],[tooHighAmount, Alice]);
-            throw `VaultGuard could be created with amount higher than max allows. ${SV}`
+            throw `VaultGuard could be created with amount higher than max allows.`
         } catch (e) {
             expect(e).toContain('self.totalAuthorizedAmount + maxAmount <=  REVV.MAX_SUPPLY : "Requested max amount + previously authorized amount exceeds max supply"');
         }
@@ -202,7 +201,7 @@ describe("REVV contract tests.\n\tAccounts:\n\t [+] Service: \towns REVV & REVVV
         try {
             const amount = '1.0';
             await sendTransaction("withdraw-from-vault-proxy", [Bob], [amount]);
-            throw `REVV could been withdraw from VaultProxy with revoked Guard capability. ${SV}`
+            throw `REVV could been withdraw from VaultProxy with revoked Guard capability.`
         } catch (e) {
             expect(e).toContain("pre-condition failed: Can't withdraw. vaultGuardCap.check() failed");
         }
@@ -211,14 +210,14 @@ describe("REVV contract tests.\n\tAccounts:\n\t [+] Service: \towns REVV & REVVV
     test("Can't change the REVV totalSupply by writing to the field", async () => {
         try {
             await sendTransaction("failed-assign-to-revv-total-supply");
-            throw `Can assign to totalSupply. ${SV}`
+            throw `Can assign to totalSupply.`
         } catch (e) {
             expect(e).toContain("cannot assign to `totalSupply`: field has public access");
         }
 
         try {
             await sendTransaction("failed-bitshift-revv-total-supply");
-            throw `Can bitshift totalSupply. ${SV}`
+            throw `Can bitshift totalSupply.`
         } catch (e) {
             expect(e).toContain("cannot apply binary operation << to types: `UFix64`, `UFix64`");
         }
@@ -227,7 +226,7 @@ describe("REVV contract tests.\n\tAccounts:\n\t [+] Service: \towns REVV & REVVV
     test("Can't change the REVV MAX_SUPPLY to writing to the field", async () => {
         try {
             await sendTransaction("failed-assign-to-revv-max-supply");
-            throw `Can assign to MAX_SUPPLY. ${SV}`
+            throw `Can assign to MAX_SUPPLY.`
         } catch (e) {
             expect(e).toContain("cannot assign to `MAX_SUPPLY`: field has public access")
         }
@@ -236,7 +235,7 @@ describe("REVV contract tests.\n\tAccounts:\n\t [+] Service: \towns REVV & REVVV
     test("Can't emit a Mint event from a tx", async () => {
         try {
             await sendTransaction("failed-emit-mint-event");
-            throw `Can emit Mint event from tx. ${SV}`
+            throw `Can emit Mint event from tx.`
         } catch (e) {
             expect(e).toContain("cannot emit imported event type: `REVV.TokensMinted`");
         }
@@ -245,7 +244,7 @@ describe("REVV contract tests.\n\tAccounts:\n\t [+] Service: \towns REVV & REVVV
     test("Can't modify RevvAdminStoragePath", async () => {
         try {
             await sendTransaction("failed-assign-to-revv-admin-storage-path");
-            throw `Can assign to RevvAdminStoragePath. ${SV}`
+            throw `Can assign to RevvAdminStoragePath.`
         } catch(e) {
             expect(e).toContain("cannot assign to `RevvAdminStoragePath`: field has public access");
         }
@@ -263,7 +262,7 @@ describe("REVV contract tests.\n\tAccounts:\n\t [+] Service: \towns REVV & REVVV
     test("Can't modify RevvReceiverPublicPath", async () => {
         try {
             await sendTransaction("failed-assign-to-revv-receiver-public-path");
-            throw `Can assign to RevvReceiverPublicPath. ${SV}`
+            throw `Can assign to RevvReceiverPublicPath.`
         } catch (e) {
             expect(e).toContain("cannot assign to `RevvReceiverPublicPath`: field has public access");
         }
@@ -281,7 +280,7 @@ describe("REVV contract tests.\n\tAccounts:\n\t [+] Service: \towns REVV & REVVV
     test("Can't modify RevvVaultPrivatePath", async () => {
         try {
             await sendTransaction("failed-assign-to-revv-vault-private-path");
-            throw `Can assign to RevvVaultPrivatePath. ${SV}`
+            throw `Can assign to RevvVaultPrivatePath.`
         } catch (e) {
             expect(e).toContain("cannot assign to `RevvVaultPrivatePath`: field has public access");
         }
@@ -290,7 +289,7 @@ describe("REVV contract tests.\n\tAccounts:\n\t [+] Service: \towns REVV & REVVV
     test("Can't withdraw from REVV mint vault with a public vault balance capability", async () => {
         try {
             await sendTransaction("failed-vault-withdraw-from-balance-public-path");
-            throw `Can withdraw from mint vault. ${SV}`
+            throw `Can withdraw from mint vault.`
         } catch (e) {
             expect(e).toContain("error: value of type `&AnyResource{FungibleToken.Balance}` has no member `withdraw`");
         }
@@ -299,7 +298,7 @@ describe("REVV contract tests.\n\tAccounts:\n\t [+] Service: \towns REVV & REVVV
     test("Can't withdraw from mint vault with public provider capability", async () => {
         try {
             await sendTransaction("failed-vault-withdraw-from-provider-public-path",[serviceAddress],[serviceAddress]);
-            throw `Can withdraw from mint vault. ${SV}`
+            throw `Can withdraw from mint vault.`
         } catch (e) {
             expect(e).toContain("unexpectedly found nil while forcing an Optional value")
         }
@@ -308,7 +307,7 @@ describe("REVV contract tests.\n\tAccounts:\n\t [+] Service: \towns REVV & REVVV
     test("Can't withdraw from vault using provider capability for storage path, not even with service account", async () => {
         try {
             await sendTransaction("failed-vault-withdraw-from-storage-path", [serviceAddress], [serviceAddress]);
-            throw `Can withdraw from mint vault. ${SV}`
+            throw `Can withdraw from mint vault.`
         } catch (e) {
             expect(e).toContain("expected `PublicPath`, got `StoragePath`");
         }
@@ -322,7 +321,7 @@ describe("REVV contract tests.\n\tAccounts:\n\t [+] Service: \towns REVV & REVVV
     test("A REVV Admin resource can't be created after the REVV contract has been initialized", async () => {
         try {
             await sendTransaction("failed-create-revv-admin-outside-contract")
-            throw `Can create Admin outside of contract! ${SV}`
+            throw `Can create Admin outside of contract!`
         } catch(e){
             expect(e).toContain("cannot create resource type outside of containing contract: `REVV.Admin`");
         }
@@ -331,7 +330,7 @@ describe("REVV contract tests.\n\tAccounts:\n\t [+] Service: \towns REVV & REVVV
     test("The REVV mint method can't be called from outside the contract", async () => {
         try {
             await sendTransaction("failed-mint-outside-contract");
-            throw `Can mint from outside REVV contract! ${SV}`
+            throw `Can mint from outside REVV contract!`
         } catch(e){
             expect(e).toContain("cannot access `mint`: function has contract access");
         }
@@ -340,7 +339,7 @@ describe("REVV contract tests.\n\tAccounts:\n\t [+] Service: \towns REVV & REVVV
     test("Can't deposit to escrow from outside the contract", async () => {
         try {
             await sendTransaction("failed-deposit-to-escrow-from-outside-revv-contract");
-            throw `Can deposit to escrow from outside contract! ${SV}`
+            throw `Can deposit to escrow from outside contract!`
         } catch(e){
             expect(e).toContain("cannot access `depositToEscrow`: function has contract access");
         }
@@ -349,7 +348,7 @@ describe("REVV contract tests.\n\tAccounts:\n\t [+] Service: \towns REVV & REVVV
     test("Can't modify REVVVaultAccess's VaultProxyStoragePath", async () => {
         try {
             await sendTransaction("failed-assign-to-revvvaultaccess-vaultproxystoragepath");
-            throw `Can modify RevvVaultAccess's VaultProxyStoragePath! ${SV}`
+            throw `Can modify RevvVaultAccess's VaultProxyStoragePath!`
         } catch(e) {
             expect(e).toContain("error: cannot assign to `VaultProxyStoragePath`: field has public access");
         }
@@ -358,7 +357,7 @@ describe("REVV contract tests.\n\tAccounts:\n\t [+] Service: \towns REVV & REVVV
     test("Can't modify REVVVaultAccess's VaultProxyPublicPath", async () => {
         try {
             await sendTransaction("failed-assign-to-revvvaultaccess-vaultproxypublicpath");
-            throw `Can modify RevvVaultAccess's VaultProxyPublicPath! ${SV}`
+            throw `Can modify RevvVaultAccess's VaultProxyPublicPath!`
         } catch(e) {
             expect(e).toContain("cannot assign to `VaultProxyPublicPath`: field has public access");
         }
@@ -367,7 +366,7 @@ describe("REVV contract tests.\n\tAccounts:\n\t [+] Service: \towns REVV & REVVV
     test("Can't modify REVVVaultAccess's AdminStoragepath", async () => {
         try {
             await sendTransaction("failed-assign-to-revvvaultaccess-adminstoragepath");
-            throw `Can modify RevvVaultAccess's AdminStoragePath! ${SV}`
+            throw `Can modify RevvVaultAccess's AdminStoragePath!`
         } catch(e) {
             expect(e).toContain("cannot assign to `AdminStoragePath`: field has public access");
         }
@@ -376,7 +375,7 @@ describe("REVV contract tests.\n\tAccounts:\n\t [+] Service: \towns REVV & REVVV
     test("Can't modify REVVVaultAccess's totalAuthorizedAmount", async () => {
         try {
             await sendTransaction("failed-assign-to-revvvaultaccess-totalauthorizedamount");
-            throw `Can modify RevvVaultAccess's totalAuthorizedAmount! ${SV}`
+            throw `Can modify RevvVaultAccess's totalAuthorizedAmount!`
         } catch(e) {
             expect(e).toContain("cannot assign to `totalAuthorizedAmount`: field has public access");
         }
@@ -385,7 +384,7 @@ describe("REVV contract tests.\n\tAccounts:\n\t [+] Service: \towns REVV & REVVV
     test("Can't modify proxyToGuardMap by field assignment", async () => {
         try {
             await sendTransaction("failed-assign-to-revvvaultaccess-proxytoguardmap");
-            throw `Can modify RevvVaultAccess's proxyToGuardMap! ${SV}`
+            throw `Can modify RevvVaultAccess's proxyToGuardMap!`
         } catch(e) {
             expect(e).toContain("cannot access `proxyToGuardMap`: field has contract access");
         }
@@ -394,7 +393,7 @@ describe("REVV contract tests.\n\tAccounts:\n\t [+] Service: \towns REVV & REVVV
     test("Can't modify guardToProxyMap by field assignment", async () => {
         try {
             await sendTransaction("failed-assign-to-revvvaultaccess-guardtoproxymap");
-            throw `Can modify RevvVaultAccess's guardToProxyMap! ${SV}`
+            throw `Can modify RevvVaultAccess's guardToProxyMap!`
         } catch(e) {
             expect(e).toContain("cannot access `guardToProxyMap`: field has contract access");
         }
@@ -403,7 +402,7 @@ describe("REVV contract tests.\n\tAccounts:\n\t [+] Service: \towns REVV & REVVV
     test("Can't create a RevvVaultAccess Admin outside of contract", async () => {
         try {
             await sendTransaction("failed-create-revvvaultaccess-admin");
-            throw `Can create RevvVaultAccess Admin outside of contract! ${SV}`
+            throw `Can create RevvVaultAccess Admin outside of contract!`
         } catch(e) {
             expect(e).toContain("cannot create resource type outside of containing contract: `REVVVaultAccess.Admin`");
         }
@@ -412,7 +411,7 @@ describe("REVV contract tests.\n\tAccounts:\n\t [+] Service: \towns REVV & REVVV
     test("Can't create a VaultGuard if admin is nil", async () => {
         try {
             await sendTransaction("failed-create-vaultguard-without-admin");
-            throw `Can create a VaultGuard without an admin reference! ${SV}`
+            throw `Can create a VaultGuard without an admin reference!`
         } catch(e) {
             expect(e).toContain("expected `&REVVVaultAccess.Admin`, got `Never?");
             expect(e).toContain("error: mismatched types");
@@ -423,7 +422,7 @@ describe("REVV contract tests.\n\tAccounts:\n\t [+] Service: \towns REVV & REVVV
         try {
             const maxAmount = '100000000000.0';
             await sendTransaction("failed-create-vaultguard-exceeding-max",[serviceAddress],[maxAmount,serviceAddress]);
-            throw `Can create a VaultGuard with a max that exceeds allowed amount! ${SV}`
+            throw `Can create a VaultGuard with a max that exceeds allowed amount!`
         } catch (e) {
             expect(e).toContain("error: pre-condition failed: Requested max amount + previously authorized amount exceeds max supply");
         }
@@ -445,7 +444,7 @@ describe("REVV contract tests.\n\tAccounts:\n\t [+] Service: \towns REVV & REVVV
     test("Can't modify stored VaultGuard", async () => {
         try {
             await sendTransaction("failed-modify-vault-guard-max");
-            throw `Can modify a stored VaultGuard's max field! ${SV}`
+            throw `Can modify a stored VaultGuard's max field!`
         } catch (e) {
             expect(e).toContain("cannot assign to `max`: field has public access");
         }
@@ -454,7 +453,7 @@ describe("REVV contract tests.\n\tAccounts:\n\t [+] Service: \towns REVV & REVVV
     test("Can't set max amount on existing VaultGuard", async () => {
         try {
             await sendTransaction("failed-modify-vault-guard-total");
-            throw `Can modify a stored VaultGuard's total field! ${SV}`
+            throw `Can modify a stored VaultGuard's total field!`
         } catch (e) {
             expect(e).toContain("cannot assign to `total`: field has public access");
         }
@@ -470,7 +469,7 @@ describe("REVV contract tests.\n\tAccounts:\n\t [+] Service: \towns REVV & REVVV
         try {
             let amount = '2.0';
             await sendTransaction("withdraw-from-vault-proxy", [Alice], [amount]);
-            throw `Can withdraw REVV from a new VaultGuard! ${SV}`
+            throw `Can withdraw REVV from a new VaultGuard!`
         } catch (e) {
             expect(e).toContain("Can't withdraw. vaultGuardCap.check() failed");
         }
