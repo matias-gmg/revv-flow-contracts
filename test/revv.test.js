@@ -7,10 +7,9 @@ jest.setTimeout(10000000);
 
 describe("REVV contract tests.\n\tAccounts:\n\t [+] Service: \towns REVV & REVVVaultAccess contracts.\n\t [+] Alice: \towns a REVV vault (only) but no VaultProxy. \n\t [+] Bob: \towns a ProxyVault.\n\n\tRunning tests:...", () => {
 
-    const serviceAddress = "0xf8d6e0586b0a20c7";
     const SV = "~~~ Security Vulnerability! ~~~";
-
-    let addressMap = {};
+    const serviceAddress = "0xf8d6e0586b0a20c7";
+    const addressMap = {};
     addressMap["REVV"] = serviceAddress;
     addressMap["FungibleToken"] = "0xee82856bf20e2aa6";
 
@@ -462,7 +461,6 @@ describe("REVV contract tests.\n\tAccounts:\n\t [+] Service: \towns REVV & REVVV
     });
 
     test("Can't create a VaultProxy and withdraw funds without the capability being set", async () => {
-
         //create vaultproxy for alice
         const Alice = await getAccountAddress("Alice");
         const tx = await sendTransaction("create-vault-proxy", [Alice]);
