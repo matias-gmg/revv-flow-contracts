@@ -1,0 +1,1 @@
+export const TX_SUCCESS_STATUS = 4;

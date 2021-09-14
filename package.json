@@ -2,6 +2,9 @@
   "name": "yarn",
   "version": "1.0.0",
   "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
   "repository": "git@github.com:animoca/revv-flow-contracts.git",
   "author": "gunnar <gunnark@animocabrands.com>",
   "license": "MIT",
