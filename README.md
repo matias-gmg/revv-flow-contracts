@@ -86,6 +86,8 @@ https://github.com/animoca/revv-flow-contracts/blob/master/cadence/transactions/
 
 ## How to run tests
 
+Install Flow CLI: https://docs.onflow.org/flow-cli/install/
+
 To run tests locally, run the following command in the project directory:
 ```
 yarn test
