@@ -96,7 +96,7 @@ describe("REVV contract tests.\n\tAccounts:\n\t [+] Service: \towns REVV & REVVV
     test("Service can't remove REVV directly from the escrow vault", async () => {
         try {
             const amount = '1.0';
-            await sendTransaction("access-escrow-fail",[],[amount]);
+            await sendTransaction("failed-access-escrow",[],[amount]);
             throw "Escrow Vault could be accessed! Security Vulnerability!";
         } catch (e) {
             expect(e).toContain("[Error Code: 1101] cadence runtime error Execution failed");
@@ -109,7 +109,7 @@ describe("REVV contract tests.\n\tAccounts:\n\t [+] Service: \towns REVV & REVVV
             const amount = '2.0';
             const Alice = await getAccountAddress("Alice");
             const signers = [Alice];
-            await sendTransaction("access-escrow-fail",signers,[amount]);
+            await sendTransaction("failed-access-escrow",signers,[amount]);
             // If we get here, the tx succeeded - bad news.
             throw `Escrow Vault could be accessed!`;
         } catch (e) {
