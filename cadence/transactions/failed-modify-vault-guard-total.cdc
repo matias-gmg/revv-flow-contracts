@@ -7,7 +7,7 @@ transaction {
     }
 
     execute {
-        self.vaultGuard.total = 1.0 //should fail
+        self.vaultGuard.total = 1.0  // hardcoded amount for testing fail scenario
     }
 
 }

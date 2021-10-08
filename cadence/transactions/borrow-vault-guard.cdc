@@ -8,8 +8,6 @@ transaction {
         self.vaultGuardRef = vaultGuardCap.borrow()!
     }
     execute {
-        // Test to withdraw. Hardcoded amouny and burning for testing only
-        let tempVault <- self.vaultGuardRef.withdraw(amount: 1.0)
-        destroy tempVault
+       // no action here. This tx just to test reference can be accessed.
     }
 }

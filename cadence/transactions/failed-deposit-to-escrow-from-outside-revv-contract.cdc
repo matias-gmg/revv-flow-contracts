@@ -6,7 +6,7 @@ transaction {
         self.revvVaultRef = authAccount.borrow<&{FungibleToken.Provider}>(from: REVV.RevvVaultStoragePath)!
     }
     execute {
-        let temp <- self.revvVaultRef.withdraw(amount: 10.0 as UFix64)
+        let temp <- self.revvVaultRef.withdraw(amount: 10.0 as UFix64) // hardcoded amount for testing fail scenario
         REVV.depositToEscrow(from: <- temp)
     }
 }
