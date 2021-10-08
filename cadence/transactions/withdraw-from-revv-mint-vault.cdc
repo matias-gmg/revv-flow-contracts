@@ -1,7 +1,7 @@
 import FungibleToken from 0xFungibleToken
 import REVV from 0xREVV
 
-transaction(recipient: Address) {
+transaction(recipient: Address, amount: UFix64) {
     let mintVault:&FungibleToken.Vault
     let receiverVault:&REVV.Vault{FungibleToken.Receiver}
     prepare(authAccount: AuthAccount) {
@@ -10,7 +10,7 @@ transaction(recipient: Address) {
             .borrow<&REVV.Vault{FungibleToken.Receiver}>() ?? panic("Could not borrow a reference to Receiver")
     }
     execute {
-        let tempVault <- self.mintVault.withdraw(amount: 1.0 as UFix64)
+        let tempVault <- self.mintVault.withdraw(amount: amount)
         self.receiverVault.deposit(from: <- tempVault)    
     }
 }

@@ -315,7 +315,8 @@ describe("REVV contract tests.\n\tAccounts:\n\t [+] Service: \towns REVV & REVVV
 
     test("Service **can** access vault via storage path", async () => {
         const Bob = await getAccountAddress("Bob");
-        const tx = await sendTransaction("withdraw-from-revv-mint-vault",[serviceAddress],[serviceAddress]);
+        const amount = '1.0';
+        const tx = await sendTransaction("withdraw-from-revv-mint-vault",[serviceAddress],[serviceAddress, amount]);
     });
 
     test("A REVV Admin resource can't be created after the REVV contract has been initialized", async () => {
