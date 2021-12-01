@@ -36,7 +36,7 @@ pub contract REVV: FungibleToken {
   pub let RevvVaultPrivatePath: PrivatePath
 
 
-  // The escrow vault for REVV from REVV vaults that were detroyed
+  // The escrow vault for REVV from REVV vaults that were destroyed
   access(contract) let escrowVault: @REVV.Vault
 
   // Admin resource
@@ -46,7 +46,7 @@ pub contract REVV: FungibleToken {
   // Vault
   //
   // Each user stores an instance of only the Vault in their storage
-  // The functions in the Vault and governed by the pre and post conditions
+  // The functions in the Vault are governed by the pre and post conditions
   // in FungibleToken when they are called.
   // The checks happen at runtime whenever a function is called.
   //
@@ -66,7 +66,7 @@ pub contract REVV: FungibleToken {
 
     // withdraw
     //
-    // Function that takes an integer amount as an argument
+    // Function that takes an amount as an argument
     // and withdraws that amount from the Vault.
     // It creates a new temporary Vault that is used to hold
     // the money that is being transferred. It returns the newly
@@ -120,7 +120,7 @@ pub contract REVV: FungibleToken {
 
   // depositToEscrow
   //
-  // Function accessible from contract only, which desposits REVV into the escrow vault
+  // Function accessible from contract only, which deposits REVV into the escrow vault
   //
   access(contract) fun depositToEscrow(from: @FungibleToken.Vault) {
     let vault <- from as! @REVV.Vault
@@ -182,7 +182,7 @@ pub contract REVV: FungibleToken {
     self.RevvVaultPrivatePath = /private/revvVault
 
     // create and store Admin resource 
-    // this resource is current not used by the contract, added in case
+    // this resource is currently not used by the contract, added in case
     // needed in future
     //
     self.account.save(<- create Admin(), to: self.RevvAdminStoragePath)
