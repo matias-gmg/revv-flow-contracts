@@ -475,5 +475,24 @@ describe("REVV contract tests.\n\tAccounts:\n\t [+] Service: \towns REVV & REVVV
             expect(e).toContain("Can't withdraw. vaultGuardCap.check() failed");
         }
     });
+
+    test("Admin can withdraw from escrow vault using the withdrawfromEscrow method", async () => {
+        const amount = '1.0';
+        let balanceBefore = await executeScript("get-revv-escrow-balance");
+        const tx = await sendTransaction("withdraw-from-revv-escrow-as-admin", [serviceAddress], [serviceAddress, amount]);
+        expect(tx.status).toBe(TX_SUCCESS_STATUS);
+        let balanceAfter = await executeScript("get-revv-escrow-balance");
+        expect(balanceBefore - balanceAfter).toBe(1);
+    });
+
+    test("Alice can't create a REVV Admin", async () => {
+        try {
+            const amount = '1.0';
+            await sendTransaction("failed-create-revv-admin", [serviceAddress], [serviceAddress, amount]);
+            throw "non-contract-owner could create admin"
+        } catch (e) {
+            expect(e.toString()).toContain("error: cannot create resource type outside of containing contract: `REVV.Admin`");
+        }
+    });
  
 });

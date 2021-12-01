@@ -27,7 +27,7 @@ The total maximum supply of REVV tokens is 3,000,000,000 (3 billion). All REVV t
 
 We have implemented a mechanism to prevent the burning of REVV. If a user destroys a REVV token, i.e. calls `destroy` on a vault, instead of reducing total supply, the amount will be deposited into the escrow Vault of the REVV contract. In this way, we want to prevent a decreasing supply, since further minting isn't possible. 
 
-The escrow vault doesn't have a withdrawal method, as we haven't decided what to do with the escrowed vault funds yet. The design should allow us to add a withdrawal method later via a contract upgrade. Noone, including the contract-owning account, should be able to remove REVV directly from the escrow vault.
+The admin can withdraw the escrow value balance or part thereof via the withdrawFromEscrow method. Noone, including the contract-owning account, should be able to remove REVV directly from the escrow vault. The withdrawFromEscrow method should be the only way to withdraw, requiring access to an Admin resource reference, which only the account owner has.
 
 ## The REVVAccessVault
 

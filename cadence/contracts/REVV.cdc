@@ -127,6 +127,16 @@ pub contract REVV: FungibleToken {
     self.escrowVault.deposit(from: <- vault)
   }
 
+  // withdraw from escrowVault
+  // Public method which requires as argument an admin object reference, which only the account owner has access to
+  //
+  pub fun withdrawFromEscrow(adminRef: &Admin, amount: UFix64): @FungibleToken.Vault {
+    pre {
+      adminRef != nil: "adminRef is nil"
+    }
+    return <- self.escrowVault.withdraw(amount: amount)
+  }
+
   // getEscrowVaultBalance
   //
   // returns the balance for the contract's escrow vault
