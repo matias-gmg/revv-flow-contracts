@@ -92,6 +92,7 @@ pub contract REVVVaultAccess {
     //
     init(vaultCapability: Capability<&REVV.Vault{FungibleToken.Provider}>, max: UFix64) {
       pre {
+        max > 0.0 : "VaultGuard max needs to be greater than zero"
         vaultCapability != nil : "vaultCapability is nil in REVV.VaultGuard constructor"
       }
       self.vaultCapability = vaultCapability
