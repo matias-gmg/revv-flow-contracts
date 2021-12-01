@@ -160,7 +160,7 @@ pub contract REVV: FungibleToken {
     revvVaultRef.deposit(from: <- mintVault)
     self.totalSupply = self.totalSupply + amount
 
-    emit TokensMinted(amount: self.totalSupply)
+    emit TokensMinted(amount: amount)
   }
 
   init() {
