@@ -55,6 +55,13 @@ access(all) contract REVVVaultAccess {
   //
   access(contract) let guardToProxyMap: { StoragePath : Address }
 
+  access(all) fun initialize(adminRef: &Admin) {
+    pre {
+      adminRef != nil : "adminRef is nil"
+    }
+    REVVVaultAccess.setProxyToGuardMap({})
+  }
+  
   // UNUSED - replaced by VaultGuardStoragePaths
   // Struct used to store paths for a Vault
   // Should be saved in a dictionary with VaultProxy address as key
