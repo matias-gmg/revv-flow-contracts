@@ -1,9 +1,9 @@
-import REVVVaultAccess from 0xREVVVaultAccess
+import "REVVVaultAccess"
 
 transaction(maxAmount: UFix64, vaultProxyAddress: Address) {
     let adminRef: &REVVVaultAccess.Admin
-    prepare(acct: AuthAccount) {
-        self.adminRef = acct.borrow<&REVVVaultAccess.Admin>(from: REVVVaultAccess.AdminStoragePath)!        
+    prepare(acct: auth(BorrowValue) &Account) {
+        self.adminRef = acct.storage.borrow<&REVVVaultAccess.Admin>(from: REVVVaultAccess.AdminStoragePath)!        
     }
     execute {
         REVVVaultAccess.createVaultGuard(
@@ -11,7 +11,8 @@ transaction(maxAmount: UFix64, vaultProxyAddress: Address) {
             vaultProxyAddress: vaultProxyAddress, 
             maxAmount: maxAmount, 
             guardStoragePath: /storage/revvVaultGuard_01,  // new path for every guard. Cadence / fcl doesn't support passing in Paths as arguments from fcl.
-            guardPrivatePath: /private/revvVaultGuard_01   // new path for every gaurd
+            guardPrivatePath: /private/revvVaultGuard_01,  // new path for every gaurd
+            guardWithdrawPath: /storage/revvVaultGuard_01Provider // new path
         )
     }
 }
