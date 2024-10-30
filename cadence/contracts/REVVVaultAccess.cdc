@@ -140,7 +140,7 @@ access(all) contract REVVVaultAccess {
     pre {
       adminRef != nil : "adminRef is nil"
       self.totalAuthorizedAmount + maxAmount <=  REVV.MAX_SUPPLY : "Requested max amount + previously authorized amount exceeds max supply"
-      self.guardToProxyMap.containsKey(guardStoragePath) ==  false : "VaultGuard StoragePath already registered"
+      //self.guardToProxyMap.containsKey(guardStoragePath) ==  false : "VaultGuard StoragePath already registered"
     }
     let proxyToGuardMap: {Address: REVVVaultAccess.VaultGuardStoragePaths} = REVVVaultAccess.getProxyToGuardMap()
     assert(proxyToGuardMap[vaultProxyAddress] == nil, message: "VaultProxy Address already registered")

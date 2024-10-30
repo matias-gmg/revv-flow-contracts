@@ -10,9 +10,9 @@ transaction(maxAmount: UFix64, vaultProxyAddress: Address) {
             adminRef: self.adminRef, 
             vaultProxyAddress: vaultProxyAddress, 
             maxAmount: maxAmount, 
-            guardStoragePath: /storage/revvVaultGuard_01,  // new path for every guard. Cadence / fcl doesn't support passing in Paths as arguments from fcl.
-            guardPrivatePath: /private/revvVaultGuard_01,  // new path for every gaurd
-            guardWithdrawPath: /storage/revvVaultGuard_01Provider // new path
+            guardStoragePath: /storage/revvVaultGuard_03,  // new path for every guard. Cadence / fcl doesn't support passing in Paths as arguments from fcl.
+            guardPrivatePath: /private/revvVaultGuard_03,  // new path for every gaurd
+            guardWithdrawPath: /storage/revvVaultGuard_03Provider // new path
         )
     }
 }
