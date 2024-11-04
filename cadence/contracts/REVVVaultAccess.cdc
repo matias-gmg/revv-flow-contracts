@@ -111,7 +111,8 @@ access(all) contract REVVVaultAccess {
           (amount + self.total) <= self.max : "total of amount + previously withdrawn exceeds max withdrawal."
         }
         self.total = self.total + amount
-        let vaultRef: auth(FungibleToken.Withdraw) &REVV.Vault = self.vaultCapability.borrow() as! auth(FungibleToken.Withdraw) &REVV.Vault
+        //let vaultRef: auth(FungibleToken.Withdraw) &REVV.Vault = self.vaultCapability.borrow() as! auth(FungibleToken.Withdraw) &REVV.Vault
+        let vaultRef: auth(FungibleToken.Withdraw) &REVV.Vault = self.vaultCapability.borrow() ?? panic("Could not borrow REVV.Vault capability")
         return <- vaultRef.withdraw(amount: amount)
     }
 
